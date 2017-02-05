@@ -13,7 +13,6 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
-
     private IRemoteService remoteService;
 
     @Override
@@ -23,25 +22,23 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         intent.setClass(this, RemoteService.class);
-        bindService(intent, connection, Service.BIND_AUTO_CREATE);
+        bindService(intent, connection, Service.BIND_AUTO_CREATE); // 绑定服务
     }
 
 
     private ServiceConnection connection = new ServiceConnection() {
-        // Called when the connection with the service is established
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // Following the example above for an AIDL interface,
-            // this gets an instance of the IRemoteInterface, which we can use to call on the service
-            remoteService = IRemoteService.Stub.asInterface(service);
+            remoteService = IRemoteService.Stub.asInterface(service); //获取AIDL的接口实现引用
             try {
-                Log.i(TAG, "Client pid= " + Process.myPid());
-                Log.i(TAG, "RemoteService pid= " + remoteService.getPid());
+                MyProcess clientProcess = new MyProcess(Process.myPid(), MainActivity.this.getPackageName());
+                MyProcess myProcess = remoteService.getProcess(clientProcess);
+                Log.i(TAG, "RemoeteService pName = " + myProcess.name);
+                Log.i(TAG, "RemoteService pid= " + myProcess.pid);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
 
-        // Called when the connection with the service disconnects unexpectedly
         public void onServiceDisconnected(ComponentName className) {
             Log.e(TAG, "Service has unexpectedly disconnected");
             remoteService = null;

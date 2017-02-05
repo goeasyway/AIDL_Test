@@ -20,7 +20,7 @@
             android:name=".RemoteService"
             android:process=":remote"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
     </application>
 
 </manifest>
