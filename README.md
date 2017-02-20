@@ -1,6 +1,6 @@
 # Android AIDL手写例子
 
-Android AIDL面试题，做这两个练习清松应对。
+Android AIDL面试题，做这两个练习轻松应对。
 
 简书原文[传送门](http://www.jianshu.com/p/96b9f38319c1)
 
